@@ -1,0 +1,140 @@
+/* ============================================
+   SKELETON LOADING STATES
+   ============================================ */
+
+/* Base shimmer — overrides globals.css .skeleton with same keyframe */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--border-subtle) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite ease-in-out;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Size helpers */
+.skeleton-text-sm {
+  height: 12px;
+  border-radius: 4px;
+}
+
+.skeleton-text-lg {
+  height: 24px;
+  border-radius: 6px;
+}
+
+.skeleton-btn {
+  width: 140px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.skeleton-bar {
+  height: 6px;
+  width: 100%;
+  border-radius: 3px;
+}
+
+/* ── KM Ring skeleton ───────────────────── */
+.skeleton-ring-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skeleton-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* Use box-shadow trick to simulate a ring */
+  background: transparent !important;
+  box-shadow: inset 0 0 0 18px var(--border-subtle);
+  animation: none;
+}
+
+.skeleton-ring-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+}
+
+/* ── KM header skeleton ─────────────────── */
+.skeleton-km-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+  padding-top: var(--space-8);
+}
+
+/* ── Milestone skeleton ─────────────────── */
+.skeleton-milestone {
+  padding-bottom: var(--space-6);
+}
+
+/* ── Challenges skeletons ───────────────── */
+.skeleton-challenges-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.skeleton-challenges-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-8);
+}
+
+.skeleton-challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.skeleton-challenge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+}
+
+.skeleton-points-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  padding: var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .skeleton-challenges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skeleton-ring-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+}

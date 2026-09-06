@@ -1,0 +1,286 @@
+/* ============================================
+   KM VIEW
+   ============================================ */
+.km-page {
+  min-height: 100vh;
+  padding-top: 80px;
+  padding-bottom: var(--space-16);
+  background: var(--bg-primary);
+  background-image: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    rgba(79, 203, 254, 0.06) 0%,
+    transparent 70%
+  );
+}
+
+.km-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+  padding-top: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.km-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--text-white);
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+.km-subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Connect Strava banner */
+.km-connect-strava {
+  background: var(--bg-card);
+  border: 1px dashed var(--border-active);
+  border-radius: var(--radius-xl);
+  padding: var(--space-10) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.km-connect-strava p {
+  color: var(--text-muted);
+  font-size: 15px;
+  max-width: 360px;
+  line-height: 1.7;
+}
+
+/* Ring section */
+.km-ring-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-6) 0 var(--space-8);
+}
+
+.progress-ring-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring-svg {
+  filter: drop-shadow(0 0 24px rgba(79, 203, 254, 0.2));
+}
+
+.progress-ring-center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.progress-ring-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.progress-ring-value {
+  font-size: 3.8rem;
+  font-weight: 900;
+  color: var(--text-white);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.progress-ring-unit {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  letter-spacing: 2px;
+}
+
+/* Milestone bar */
+.km-milestone-section {
+  padding: 0 0 var(--space-8);
+}
+
+.milestone-bar-container {
+  position: relative;
+  padding-bottom: 52px;
+}
+
+.milestone-bar-track {
+  position: relative;
+  height: 6px;
+  background: var(--border-subtle);
+  border-radius: 3px;
+  overflow: visible;
+}
+
+.milestone-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--btn-blue), var(--accent-cyan));
+  border-radius: 3px;
+}
+
+.milestone-bar-runner {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: var(--accent-cyan);
+  color: var(--bg-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(79, 203, 254, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  animation: pulse-glow 2.5s ease infinite;
+  z-index: 2;
+}
+
+.milestone-bar-runner.complete {
+  background: var(--accent-orange);
+  box-shadow: 0 0 16px rgba(238, 129, 72, 0.6);
+}
+
+.milestone-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: var(--border-subtle);
+  border-radius: 50%;
+  border: 2px solid var(--bg-primary);
+  z-index: 1;
+}
+
+.milestone-dot.reached {
+  background: var(--accent-cyan);
+}
+
+.milestone-bar-labels {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+}
+
+.milestone-label {
+  position: absolute;
+  bottom: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.milestone-label.reached {
+  color: var(--accent-cyan);
+}
+
+.milestone-bar-message {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: var(--space-5);
+}
+
+/* Sync button */
+.sync-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.sync-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--error);
+  font-size: 12px;
+  background: rgba(255, 68, 68, 0.08);
+  border: 1px solid rgba(255, 68, 68, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+
+.sync-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 10px 20px;
+}
+
+.sync-btn.synced {
+  background: var(--success);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 768px) {
+  .km-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .sync-button-wrapper {
+    align-items: flex-start;
+  }
+
+  .km-title {
+    font-size: 1.8rem;
+  }
+
+  .progress-ring-value {
+    font-size: 2.8rem;
+  }
+
+  .km-connect-strava {
+    padding: var(--space-8) var(--space-5);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Scale the SVG ring down on small screens */
+  .progress-ring-container svg {
+    width: 240px;
+    height: 240px;
+  }
+
+  .progress-ring-value {
+    font-size: 2.2rem;
+  }
+
+  .progress-ring-label {
+    font-size: 9px;
+  }
+
+  .progress-ring-unit {
+    font-size: 1rem;
+  }
+}
