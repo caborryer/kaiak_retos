@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
@@ -7,6 +8,29 @@ import SyncButton from '@/components/km/SyncButton';
 import { SkeletonRing, SkeletonMilestone, SkeletonKmHeader } from '@/components/ui/Skeletons';
 import '@/styles/km.css';
 import '@/styles/skeleton.css';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kaiak-app.vercel.app';
+
+export const metadata: Metadata = {
+  title: 'Registrar kilómetros KAIAK — Tus KM, tus logros',
+  description:
+    'Registrá tus kilómetros en KAIAK K21. Conectá Strava, seguí tu progreso y alcanzá la meta de los 21K.',
+  alternates: {
+    canonical: `${siteUrl}/km`,
+  },
+  openGraph: {
+    title: 'Registrar kilómetros KAIAK — Tus KM, tus logros',
+    description:
+      'Registrá tus kilómetros en KAIAK K21. Conectá Strava, seguí tu progreso y alcanzá la meta de los 21K.',
+    url: `${siteUrl}/km`,
+  },
+  twitter: {
+    title: 'Registrar kilómetros KAIAK — Tus KM, tus logros',
+    description:
+      'Registrá tus kilómetros en KAIAK K21. Conectá Strava, seguí tu progreso y alcanzá la meta de los 21K.',
+  },
+};
+
 
 async function KmContent({ userId }: { userId: string }) {
   const supabase = await createClient();

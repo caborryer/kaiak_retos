@@ -4,6 +4,7 @@
 .opencode/
 .openspec/
 openspec/
+skills-lock.json
 
 # Dependencies
 node_modules/

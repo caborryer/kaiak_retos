@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
@@ -10,6 +11,29 @@ export const revalidate = 30;
 import type { Challenge } from '@/types';
 import '@/styles/challenges.css';
 import '@/styles/skeleton.css';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kaiak-app.vercel.app';
+
+export const metadata: Metadata = {
+  title: 'Retos KAIAK K21 — Completá desafíos y sumá puntos',
+  description:
+    'Descubrí los retos de KAIAK K21. Completá desafíos de distancia, acumulá puntos y desbloqueá recompensas exclusivas.',
+  alternates: {
+    canonical: `${siteUrl}/challenges`,
+  },
+  openGraph: {
+    title: 'Retos KAIAK K21 — Completá desafíos y sumá puntos',
+    description:
+      'Descubrí los retos de KAIAK K21. Completá desafíos de distancia, acumulá puntos y desbloqueá recompensas exclusivas.',
+    url: `${siteUrl}/challenges`,
+  },
+  twitter: {
+    title: 'Retos KAIAK K21 — Completá desafíos y sumá puntos',
+    description:
+      'Descubrí los retos de KAIAK K21. Completá desafíos de distancia, acumulá puntos y desbloqueá recompensas exclusivas.',
+  },
+};
+
 
 async function ChallengesContent({ userId }: { userId: string }) {
   const supabase = await createClient();

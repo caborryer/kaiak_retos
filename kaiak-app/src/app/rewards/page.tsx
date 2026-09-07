@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import RewardCard from '@/components/rewards/RewardCard';
@@ -6,6 +7,29 @@ import '@/styles/rewards.css';
 
 // Rewards catalog changes rarely — cache for 60s
 export const revalidate = 60;
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kaiak-app.vercel.app';
+
+export const metadata: Metadata = {
+  title: 'Recompensas KAIAK K21 — Canjeá tus puntos por premios',
+  description:
+    'Explorá el catálogo de recompensas exclusivas de KAIAK K21. Acumulá puntos corriendo y canjeálos por productos y experiencias únicas.',
+  alternates: {
+    canonical: `${siteUrl}/rewards`,
+  },
+  openGraph: {
+    title: 'Recompensas KAIAK K21 — Canjeá tus puntos por premios',
+    description:
+      'Explorá el catálogo de recompensas exclusivas de KAIAK K21. Acumulá puntos corriendo y canjeálos por productos y experiencias únicas.',
+    url: `${siteUrl}/rewards`,
+  },
+  twitter: {
+    title: 'Recompensas KAIAK K21 — Canjeá tus puntos por premios',
+    description:
+      'Explorá el catálogo de recompensas exclusivas de KAIAK K21. Acumulá puntos corriendo y canjeálos por productos y experiencias únicas.',
+  },
+};
+
 
 async function getRewardsData(userId: string) {
   const supabase = await createClient();

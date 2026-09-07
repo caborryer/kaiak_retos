@@ -1,7 +1,30 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import HeroPhone from '@/components/home/HeroPhone';
 import { ArrowRight, Activity, Trophy, Gift } from 'lucide-react';
 import '@/styles/home.css';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kaiak-app.vercel.app';
+
+export const metadata: Metadata = {
+  title: 'KAIAK K21 — El perfume que corre contigo',
+  description:
+    'Registrá tus kilómetros, completá retos y desbloqueá recompensas exclusivas de KAIAK K21. La fragancia que acompaña cada kilómetro.',
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    title: 'KAIAK K21 — El perfume que corre contigo',
+    description:
+      'Registrá tus kilómetros, completá retos y desbloqueá recompensas exclusivas de KAIAK K21.',
+    url: siteUrl,
+  },
+  twitter: {
+    title: 'KAIAK K21 — El perfume que corre contigo',
+    description:
+      'Registrá tus kilómetros, completá retos y desbloqueá recompensas exclusivas de KAIAK K21.',
+  },
+};
 
 export default function HomePage() {
   return (
