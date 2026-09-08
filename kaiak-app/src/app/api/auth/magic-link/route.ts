@@ -66,11 +66,11 @@ export async function POST(request: Request) {
   });
 
   if (!res.ok) {
-    const detail = await res.text();
-    return NextResponse.json(
-      { error: 'No se pudo enviar el email', detail },
-      { status: 500 }
-    );
+    const detail = await res.json().catch(() => ({}));
+    const message =
+      (detail as { message?: string }).message ??
+      'No se pudo enviar el email, revisá Resend';
+    return NextResponse.json({ error: message, detail }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true });
