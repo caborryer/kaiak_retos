@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { kmCutoffISO } from '@/lib/date';
 import ProgressRing from '@/components/km/ProgressRing';
 import MilestoneBar from '@/components/km/MilestoneBar';
 import SyncButton from '@/components/km/SyncButton';
@@ -36,7 +37,11 @@ async function KmContent({ userId }: { userId: string }) {
   const supabase = await createClient();
 
   const [{ data: activities }, { data: stravaConnection }] = await Promise.all([
-    supabase.from('activities').select('distance_km').eq('user_id', userId),
+    supabase
+      .from('activities')
+      .select('distance_km, start_date')
+      .eq('user_id', userId)
+      .gte('start_date', kmCutoffISO()),
     supabase
       .from('strava_connections')
       .select('athlete_name')

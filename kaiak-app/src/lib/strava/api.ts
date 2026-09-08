@@ -1,47 +1,7 @@
 import { createServiceClient } from '@/lib/supabase/server';
+import { kmCutoffEpoch } from '@/lib/date';
 
 const STRAVA_API_BASE = 'https://www.strava.com/api/v3';
-
-const APP_TIMEZONE = process.env.APP_TIMEZONE || 'America/Bogota';
-
-function startOfTodayAfterEpoch(): number {
-  const now = new Date();
-  const dtf = new Intl.DateTimeFormat('en-US', {
-    timeZone: APP_TIMEZONE,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  });
-
-  const parts = dtf.formatToParts(now);
-  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
-  const hour = get('hour') === '24' ? '0' : get('hour');
-
-  const asUtc = Date.UTC(
-    +get('year'),
-    +get('month') - 1,
-    +get('day'),
-    +hour,
-    +get('minute'),
-    +get('second')
-  );
-  const offsetMs = asUtc - now.getTime();
-
-  const todayAt0001 = Date.UTC(
-    +get('year'),
-    +get('month') - 1,
-    +get('day'),
-    0,
-    1,
-    0
-  );
-
-  return Math.floor((todayAt0001 - offsetMs) / 1000);
-}
 
 interface StravaActivity {
   id: number;
@@ -119,7 +79,7 @@ export async function syncStravaActivities(userId: string): Promise<number> {
   }
 
   // Fetch activities from today at 00:01
-  const afterTimestamp = startOfTodayAfterEpoch();
+  const afterTimestamp = kmCutoffEpoch();
 
   const activitiesUrl = new URL(`${STRAVA_API_BASE}/athlete/activities`);
   activitiesUrl.searchParams.set('after', afterTimestamp.toString());

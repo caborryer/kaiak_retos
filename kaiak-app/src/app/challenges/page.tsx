@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { kmCutoffISO } from '@/lib/date';
 import ChallengeCard from '@/components/challenges/ChallengeCard';
 import PointsPanel from '@/components/challenges/PointsPanel';
 import { SkeletonChallengesGrid } from '@/components/ui/Skeletons';
@@ -48,24 +49,45 @@ async function ChallengesContent({ userId }: { userId: string }) {
       .from('user_challenges')
       .select('challenge_id, challenges(points_reward)')
       .eq('user_id', userId),
-    supabase.from('activities').select('distance_km').eq('user_id', userId),
+    supabase
+      .from('activities')
+      .select('id, distance_km')
+      .eq('user_id', userId)
+      .gte('start_date', kmCutoffISO()),
   ]);
 
-  const totalKm = (activities || []).reduce(
-    (sum, a) => sum + (a.distance_km || 0),
-    0
-  );
-
+  // A challenge is completed with a SINGLE activity session
   const completedIds = new Set((userChallenges || []).map((uc) => uc.challenge_id));
 
-  // Auto-complete distance challenges
-  const toComplete = (challenges || []).filter(
-    (c) => c.distance_km && totalKm >= c.distance_km && !completedIds.has(c.id)
-  );
+  // A single activity completes only the HIGHEST distance challenge it reaches
+  const distanceChallenges = (challenges || [])
+    .filter((c) => c.distance_km)
+    .sort((a, b) => (a.distance_km || 0) - (b.distance_km || 0));
+
+  const toComplete: Challenge[] = [];
+  const evidenceByChallenge = new Map<string, string>();
+
+  for (const a of activities || []) {
+    const km = a.distance_km || 0;
+    const qualifying = distanceChallenges.filter((c) => km >= (c.distance_km || 0));
+    const highest = qualifying[qualifying.length - 1];
+    if (
+      highest &&
+      !completedIds.has(highest.id) &&
+      !toComplete.some((c) => c.id === highest.id)
+    ) {
+      toComplete.push(highest);
+      evidenceByChallenge.set(highest.id, a.id);
+    }
+  }
 
   if (toComplete.length > 0) {
     await supabase.from('user_challenges').insert(
-      toComplete.map((c) => ({ user_id: userId, challenge_id: c.id }))
+      toComplete.map((c) => ({
+        user_id: userId,
+        challenge_id: c.id,
+        evidence_activity_id: evidenceByChallenge.get(c.id) ?? null,
+      }))
     );
     toComplete.forEach((c) => completedIds.add(c.id));
   }
