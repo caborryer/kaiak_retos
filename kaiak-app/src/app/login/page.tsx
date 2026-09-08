@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 import { Mail, Loader2 } from 'lucide-react';
 import '@/styles/login.css';
 
@@ -15,21 +16,18 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    try {
-      const res = await fetch('/api/auth/magic-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error ?? 'No se pudo enviar el link');
-      } else {
-        setSent(true);
-      }
-    } catch {
-      setError('No se pudo enviar el link. Intentá de nuevo.');
+    if (error) {
+      setError(error.message);
+    } else {
+      setSent(true);
     }
     setLoading(false);
   };
